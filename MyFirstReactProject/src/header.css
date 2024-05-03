@@ -1,0 +1,10 @@
+header{
+    background: red;
+}
+
+.wrapper{
+    border: solid 2px green;
+    width: fit-content;
+    padding: 20px;
+    border-radius: 30px;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<style>
+    img{
+        width: 500px;
+        height: 500px;
+    }
+</style>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const diapoData = [
+            'https://imageio.forbes.com/specials-images/imageserve/5db9aaa7b4d5050006787ad2/hero-Bernard-Arnault-LVMH--perfumes-by-Jamel-Toppin/0x0.jpg?format=jpg&crop=1828,1808,x824,y0,safe&height=1808&width=1828',
+            'https://images.wsj.net/im-680000/?width=1278&size=1',
+            'https://fr.web.img5.acsta.net/c_310_420/pictures/22/08/31/17/40/2573138.jpg',
+            'https://resize.elle.fr/article/var/plain_site/storage/images/societe/news/qui-est-amelie-oudea-castera-l-actuelle-ministre-des-sports-des-jo-et-de-l-education-nationale-4188812/101352934-1-fre-FR/Qui-est-Amelie-Oudea-Castera-l-actuelle-ministre-des-Sports-des-JO-et-de-l-Education-nationale.jpg',
+            './yacht.png'
+        ]
+
+        const Diapo = () => {
+            const [count, setCount] = React.useState(0);
+            console.log(count)
+            const autoDiapo = 
+                setTimeout(function(){
+                    if(count === diapoData.length -1){
+                        setCount(0)
+                    }else{
+                        setCount(count+1)
+                    }
+                }, 3000)
+            autoDiapo
+            const handleClickLeft = () => {
+                if(count === 0){
+                    setCount(diapoData.length - 1)
+                }else{
+                    setCount(count-1)
+                }
+                clearTimeout(autoDiapo)
+            }
+            const handleClickRight = () => {
+                if(count === diapoData.length - 1){
+                    setCount(0)
+                }else{
+                    setCount(count+1)
+                }
+                clearTimeout(autoDiapo)
+            }
+            return(
+                <div>
+                    <button onClick={handleClickLeft}>
+                        {'<'}
+                    </button>
+                    <img src={diapoData[count]}/>
+                    <button onClick={handleClickRight}>
+                        {'>'}
+                    </button>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <Diapo />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

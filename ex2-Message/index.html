@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        body{
+            background:#272033;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const MESSAGES = [
+            { message : "React JS" },
+            { message : "React Native" },
+            { message : "Angular" },
+            { message : "Symfony" },
+            { message : "MongoDB" },
+        ];
+
+        function Messages(){
+            return(
+                <ul>
+                    {MESSAGES.map((message, index) => <Message m={message} key={index}/>)}
+                </ul>
+            )
+        }
+
+        function Message(props){
+            const getMessage = props.m.message;
+            return(
+                <li>{getMessage}</li>
+            )
+        }
+        ReactDOM.render(
+            <Messages />,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>

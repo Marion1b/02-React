@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const Button = (props) => {
+            const [hideButton, setHideButton] = React.useState(false)
+            const handleClick = () => {
+                props.setHideCri(false)
+                setHideButton(true)
+            }
+            return(
+                <button onClick={handleClick} hidden={hideButton}>
+                    Crier
+                </button>
+            )
+        }
+
+        const DeleteAnimal = (props) => {
+            const handleDelete = (e) => {
+                const newAnimal = props.animals.filter((animal) => animal.nom !== e.target.id)
+                props.setAnimals(newAnimal)
+                console.log(props.animals)
+            }
+            return(
+                <button onClick={handleDelete} id={props.nom}>
+                    Delete
+                </button>
+            )
+        }
+
+        const Animal = (props) => {
+            const [hideCri, setHideCri] = React.useState(true);
+            return(
+                <div>
+                    <p>{props.nom}</p>
+                    <p hidden={hideCri}>{props.cri}</p>
+                    <Button setHideCri={setHideCri}/>
+                    <DeleteAnimal animals={props.animals} nom={props.nom} setAnimals={props.setAnimals}/>
+                </div>
+            )
+        }
+
+        const AnimalList = (props) => {
+            const [animals, setAnimals] = React.useState([{
+                nom: "Chat",
+                cri: "Miaou"
+            },{
+                nom: "Chien",
+                cri: "Woaf"
+            },{
+                nom: "Canari",
+                cri: "Cui cui"
+            }])
+            const handleSubmit = (e) => {
+                e.preventDefault()
+                const formData = new FormData(e.target)
+                const formJson = Object.fromEntries(formData.entries())
+                const newAnimal = {
+                    nom: formJson.nom,
+                    cri: formJson.cri
+                }
+                setAnimals([...animals, newAnimal])
+            }
+            return(
+                <section>
+                    <form onSubmit={handleSubmit}>
+                        <div className="field">
+                            <label htmlFor="nom">Nom : </label>
+                            <input type="text" name="nom" id="nom"/>
+                        </div>
+                        <div className="field">
+                            <label htmlFor="cri">Cri : </label>
+                            <input type="text" name="cri" id="cri"/>
+                        </div>
+                        <button>Ajouter</button>    
+                    </form>
+                    {animals.map((animal, i) =>
+                        <Animal key={i} nom={animal.nom} cri={animal.cri} animals={animals} setAnimals={setAnimals}/>
+                    )}
+                </section>
+            )
+        }
+
+        ReactDOM.render(
+            <AnimalList/>,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
